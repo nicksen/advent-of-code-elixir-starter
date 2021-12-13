@@ -69,8 +69,12 @@ defmodule AdventOfCode.Input do
       :cache_dir,
       Path.join([System.get_env("XDG_CACHE_HOME", "~/.cache"), "/advent_of_code_inputs"])
     )
+    |> resolve_cache_dir()
     |> Path.expand()
   end
+
+  defp resolve_cache_dir({:app_dir, path}), do: otp_app() |> Application.app_dir(path)
+  defp resolve_cache_dir(path), do: path
 
   defp default_year do
     case :calendar.local_time() do
@@ -79,9 +83,11 @@ defmodule AdventOfCode.Input do
     end
   end
 
-  defp config, do: Application.get_env(:advent_of_code, __MODULE__)
+  defp config, do: otp_app() |> Application.get_env(__MODULE__)
   defp allow_network?, do: Keyword.get(config(), :allow_network?, false)
 
   defp headers,
     do: [{'cookie', String.to_charlist("session=" <> Keyword.get(config(), :session_cookie))}]
+
+  defp otp_app, do: :advent_of_code
 end
