@@ -1,4 +1,6 @@
 defmodule AdventOfCode.Day19 do
+  use AdventOfCode
+
   def part1(args) do
   end
 

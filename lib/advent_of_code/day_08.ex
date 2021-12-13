@@ -1,4 +1,6 @@
 defmodule AdventOfCode.Day08 do
+  use AdventOfCode
+
   def part1(args) do
   end
 
